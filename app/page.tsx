@@ -108,7 +108,7 @@ export default function HomePage() {
               <a className="block hover:underline" href="#">
                 HOME
               </a>
-              <a className="block hover:underline" href="/Login.html">
+              <a className="block hover:underline" href="/Login">
                 LOGIN
               </a>
               <a className="block hover:underline" href="#">
