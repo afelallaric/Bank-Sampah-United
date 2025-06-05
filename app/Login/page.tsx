@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function LoginPage() {
   return (
@@ -12,14 +13,21 @@ export default function LoginPage() {
         />
       </Head>
       <div className="min-h-screen flex flex-col md:flex-row" style={{ fontFamily: "'Poppins', sans-serif" }}>
-        <div className="md:w-1/2 bg-[#5F8632] flex justify-center items-center p-6">
+        <div className="md:w-1/2 bg-[#5F8632] flex flex-col justify-center items-center p-6">
           <img
             src="/Images/Trash_Bin.png"
             alt="Illustration of green recycling bin, large green trash container filled with garbage, and black trash bags on the ground"
             width={400}
             height={300}
-            className="max-w-full h-auto"
+            className="max-w-full h-auto mb-8" // Adjusted margin
           />
+          <div className="w-full flex justify-center"> {/* Added a wrapper for the button */}
+            <Link href="/Bank_Sampah_Saya"
+              className="bg-[#a56f2a] text-white font-semibold text-sm px-5 py-2 rounded flex items-center gap-2 hover:bg-[#8a5a20] transition">
+                Lanjutkan Tanpa Melakukan Login
+                <i className="fas fa-arrow-right"></i>
+            </Link>
+          </div>
         </div>
         <div className="md:w-1/2 bg-white flex flex-col justify-center p-10">
           <h1 className="text-[#5F8632] font-extrabold text-5xl mb-12">Login</h1>
