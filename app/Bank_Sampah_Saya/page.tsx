@@ -1,93 +1,115 @@
-import Head from 'next/head';
+'use client';
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+interface BankSampah {
+  id: number;
+  nama: string;
+  jam_buka: string; // format 'HH:mm'
+  jam_tutup: string; // format 'HH:mm'
+  aktif?: boolean;
+}
 
 export default function BankSampahPage() {
+  const [banks, setBanks] = useState<BankSampah[]>([]);
+
+  function isAktif(jam_buka: string, jam_tutup: string): boolean {
+    const now = new Date();
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const [bukaJam, bukaMenit] = jam_buka.split(':').map(Number);
+    const [tutupJam, tutupMenit] = jam_tutup.split(':').map(Number);
+
+    const bukaMinutes = bukaJam * 60 + bukaMenit;
+    const tutupMinutes = tutupJam * 60 + tutupMenit;
+
+    return nowMinutes >= bukaMinutes && nowMinutes <= tutupMinutes;
+  }
+
+  useEffect(() => {
+    axios.get('/api/bank_sampah_saya')
+      .then(res => {
+        console.log('Data dari API:', res.data); // debug log
+        const processed = res.data.map((bank: BankSampah) => ({
+          ...bank,
+          aktif: isAktif(bank.jam_buka, bank.jam_tutup)
+        }));
+        console.log('Data yang akan ditampilkan:', processed); // debug log
+        setBanks(processed);
+      })
+      .catch(err => console.error('Gagal fetch data:', err));
+  }, []);
+
   return (
-    <>
-      <Head>
-        <title>Bank Sampah Saya</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
-      <div className="bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
-        {/* Header */}
-        <header className="bg-[#5a7c33]">
-          <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-            <div className="flex items-center space-x-3">
-              <img
-                alt="Bank Sampah United logo"
-                height={40}
-                width={40}
-                src="/Images/Grey_Logo.png"
-                className="w-10 h-10"
-              />
-              <div className="text-white font-bold text-[15px] leading-tight">
-                <div>Bank Sampah</div>
-                <div>United</div>
-              </div>
+    <div className="bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
+      {/* Header */}
+      <header className="bg-[#5a7c33]">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+          <div className="flex items-center space-x-3">
+            <img
+              alt="Bank Sampah United logo"
+              height={40}
+              width={40}
+              src="/Images/Grey_Logo.png"
+              className="w-10 h-10"
+            />
+            <div className="text-white font-bold text-[15px] leading-tight">
+              <div>Bank Sampah</div>
+              <div>United</div>
             </div>
-            <nav className="flex items-center space-x-6 text-white font-bold text-[13px]">
-              <button className="flex items-center gap-1 hover:underline">
-                LOKASI <i className="fas fa-chevron-down text-[10px]"></i>
-              </button>
-              <button className="hover:underline">TENTANG KAMI</button>
-              <button
-                aria-label="User profile"
-                className="bg-white rounded-full w-8 h-8 flex items-center justify-center text-[#5a7c33]"
-              >
-                <i className="fas fa-user text-lg"></i>
-              </button>
-            </nav>
           </div>
-        </header>
-
-        {/* Main content */}
-        <main className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-[#9b6f2a] font-semibold text-lg">
-              Home {'>'} Bank Sampah Saya
-            </h1>
-            <button
-              className="bg-[#9b6f2a] text-white text-sm font-semibold rounded-md px-4 py-2"
-              type="button"
-            >
-              + Tambah
+          <nav className="flex items-center space-x-6 text-white font-bold text-[13px]">
+            <button className="flex items-center gap-1 hover:underline">
+              LOKASI <i className="fas fa-chevron-down text-[10px]"></i>
             </button>
-          </div>
+            <button className="hover:underline">TENTANG KAMI</button>
+            <button
+              aria-label="User profile"
+              className="bg-white rounded-full w-8 h-8 flex items-center justify-center text-[#5a7c33]"
+            >
+              <i className="fas fa-user text-lg"></i>
+            </button>
+          </nav>
+        </div>
+      </header>
 
-          <ul className="space-y-3">
-            {[
-              { name: 'Rizge Kumpeni', active: true },
-              { name: 'TPASA', active: true },
-              { name: 'BSampah2018', active: false },
-            ].map(({ name, active }, i) => (
-              <li
-                key={i}
-                className="flex items-center justify-between bg-[#f7fbb0] shadow-[2px_2px_4px_#d9e2a0] rounded-md px-4 py-2"
-              >
-                <span className="text-[#7a8f3a] text-base font-normal">{name}</span>
-                <div className="flex items-center space-x-2">
-                  <span
-                    aria-label={`Status ${active ? 'Active' : 'Inactive'}`}
-                    className={`w-6 h-6 rounded-full border ${
-                      active ? 'bg-[#1e9e1e] border-[#1e9e1e]' : 'bg-[#d11a1a] border-[#d11a1a]'
-                    }`}
-                  />
-                  <button
-                    aria-label={`Remove ${name}`}
-                    className="bg-[#d9d9d9] rounded-md px-1.5 py-0.5 text-red-600 font-bold text-lg leading-none"
-                    type="button"
-                  >
-                    ×
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </main>
+      {/* Main content */}
+      <main className="max-w-7xl mx-auto px-4 py-6">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-[#9b6f2a] font-semibold text-lg">
+            Home {'>'} Bank Sampah Saya
+          </h1>
+          <button className="bg-[#9b6f2a] text-white text-sm font-semibold rounded-md px-4 py-2">
+            + Tambah
+          </button>
+        </div>
+
+        <ul className="space-y-3">
+          {banks.map((bank) => (
+            <li
+              key={bank.id}
+              className="flex items-center justify-between bg-[#f7fbb0] shadow-[2px_2px_4px_#d9e2a0] rounded-md px-4 py-2"
+            >
+              <span className="text-[#7a8f3a] text-base font-normal">{bank.nama}</span>
+              <div className="flex items-center space-x-2">
+                <span
+                  aria-label={`Status ${bank.aktif ? 'Active' : 'Inactive'}`}
+                  className={`w-6 h-6 rounded-full border ${
+                    bank.aktif ? 'bg-[#1e9e1e] border-[#1e9e1e]' : 'bg-[#d11a1a] border-[#d11a1a]'
+                  }`}
+                />
+                <button
+                  aria-label={`Remove ${bank.nama}`}
+                  className="bg-[#d9d9d9] rounded-md px-1.5 py-0.5 text-red-600 font-bold text-lg leading-none"
+                >
+                  ×
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </main>
 
       {/* Footer */}
       <footer className="bg-[#5a7f2a] text-white">
@@ -151,7 +173,6 @@ export default function BankSampahPage() {
           </div>
         </div>
       </footer>
-      </div>
-    </>
+    </div>
   );
 }

@@ -88,7 +88,7 @@ export default function RegisterPage() {
           </form>
           <p className="mt-4 text-center text-sm text-slate-900">
             Sudah punya akun?{' '}
-            <a href="/Login" className="text-[#5a7f2a] underline font-semibold">
+            <a href="/login" className="text-[#5a7f2a] underline font-semibold">
               Sign In
             </a>
           </p>

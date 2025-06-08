@@ -22,7 +22,7 @@ export default function LoginPage() {
             className="max-w-full h-auto mb-8" // Adjusted margin
           />
           <div className="w-full flex justify-center"> {/* Added a wrapper for the button */}
-            <Link href="/Bank_Sampah_Saya"
+            <Link href="/home"
               className="bg-[#a56f2a] text-white font-semibold text-sm px-5 py-2 rounded flex items-center gap-2 hover:bg-[#8a5a20] transition">
                 Lanjutkan Tanpa Melakukan Login
                 <i className="fas fa-arrow-right"></i>
@@ -63,7 +63,7 @@ export default function LoginPage() {
 
             <p className="text-center text-black text-sm">
               Belum punya akun?{' '}
-              <a href="/Register" className="font-semibold underline text-[#5F8632]">
+              <a href="/register" className="font-semibold underline text-[#5F8632]">
                 Register
               </a>
             </p>

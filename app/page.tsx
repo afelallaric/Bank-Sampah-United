@@ -29,13 +29,13 @@ export default function HomePage() {
             </div>
             <div>TENTANG KAMI</div>
             <a
-              href="/Register"
+              href="/register"
               className="bg-[#8c6a33] border border-white rounded-md px-4 py-1 text-[13px] font-normal hover:bg-[#7a5c2b] transition"
             >
               REGISTER
             </a>
             <a
-              href="/Login"
+              href="/login"
               className="border border-white rounded-md px-4 py-1 text-[13px] font-normal hover:bg-white hover:text-[#5a7f2a] transition"
             >
               LOGIN
@@ -63,7 +63,7 @@ export default function HomePage() {
             <p className="text-[14px] text-[#3c3c3c] mb-4">
               Tempat Mencari Bank Sampah Terdekat.
             </p>
-            <Link href="/Register">
+            <Link href="/register">
             <button className="bg-[#8c6a33] text-white font-bold text-[14px] rounded-md px-5 py-2 flex items-center gap-2 hover:bg-[#7a5c2b] transition">
               Start
               <i className="fas fa-arrow-right"></i>
