@@ -6,8 +6,8 @@ import axios from 'axios';
 interface BankSampah {
   id: number;
   nama: string;
-  jam_buka: string; // format 'HH:mm'
-  jam_tutup: string; // format 'HH:mm'
+  jam_buka: string; 
+  jam_tutup: string; 
   aktif?: boolean;
 }
 
@@ -94,11 +94,15 @@ export default function BankSampahPage() {
               <span className="text-[#7a8f3a] text-base font-normal">{bank.nama}</span>
               <div className="flex items-center space-x-2">
                 <span
-                  aria-label={`Status ${bank.aktif ? 'Active' : 'Inactive'}`}
-                  className={`w-6 h-6 rounded-full border ${
-                    bank.aktif ? 'bg-[#1e9e1e] border-[#1e9e1e]' : 'bg-[#d11a1a] border-[#d11a1a]'
+                  className={`text-sm font-bold px-3 py-0.5 rounded-md text-center min-w-[72px] ${
+                    bank.aktif
+                    ? 'bg-[#e6e6e6] text-[#7a8f3a]' //Buka
+                    : 'bg-[#d9d9d9] text-[#d11a1a]' //Tutup
                   }`}
-                />
+                >
+                  {bank.aktif ? 'Buka' : 'Tutup'}
+                </span>
+
                 <button
                   aria-label={`Remove ${bank.nama}`}
                   className="bg-[#d9d9d9] rounded-md px-1.5 py-0.5 text-red-600 font-bold text-lg leading-none"
