@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function RegisterPage() {
   return (
@@ -11,18 +12,22 @@ export default function RegisterPage() {
           rel="stylesheet"
         />
       </Head>
-      <div
-        className="min-h-screen flex flex-col md:flex-row"
-        style={{ fontFamily: "'Poppins', sans-serif" }}
-      >
-        <div className="md:w-1/2 bg-[#5F8632] flex justify-center items-center p-6">
+      <div className="min-h-screen flex flex-col md:flex-row" style={{ fontFamily: "'Poppins', sans-serif" }}>
+        <div className="md:w-1/2 bg-[#5F8632] flex flex-col justify-center items-center p-6">
           <img
-            alt="Illustration of green recycling bin, large green trash container filled with garbage, and black trash bags on the ground"
-            className="max-w-full h-auto"
-            height={300}
-            width={400}
             src="/Images/Trash_Bin.png"
+            alt="Illustration of green recycling bin, large green trash container filled with garbage, and black trash bags on the ground"
+            width={400}
+            height={300}
+            className="max-w-full h-auto mb-8" // Adjusted margin
           />
+          <div className="w-full flex justify-center"> {/* Added a wrapper for the button */}
+            <Link href="/home_not_logging_in"
+              className="bg-[#a56f2a] text-white font-semibold text-sm px-5 py-2 rounded flex items-center gap-2 hover:bg-[#8a5a20] transition">
+                Lanjutkan Tanpa Membuat Akun
+                <i className="fas fa-arrow-right"></i>
+            </Link>
+          </div>
         </div>
         <div className="md:w-1/2 bg-white flex flex-col justify-center p-8 md:p-16">
           <h1 className="text-[#5a7f2a] font-extrabold text-5xl mb-10">
@@ -85,13 +90,13 @@ export default function RegisterPage() {
                 Daftar
               </button>
             </div>
+            <p className="mt-4 text-center text-sm text-slate-900">
+              Sudah punya akun?{' '}
+              <a href="/login" className="text-[#5a7f2a] underline font-semibold">
+                Sign In
+              </a>
+            </p>
           </form>
-          <p className="mt-4 text-center text-sm text-slate-900">
-            Sudah punya akun?{' '}
-            <a href="/login" className="text-[#5a7f2a] underline font-semibold">
-              Sign In
-            </a>
-          </p>
         </div>
       </div>
     </>
