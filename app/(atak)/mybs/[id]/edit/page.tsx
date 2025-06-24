@@ -7,6 +7,7 @@ import WasteTypeCard from "@/components/WasteTypeCard";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { use } from "react";
+import { cookies } from "next/headers";
 
 export default function EditBankPage(props: {
   params: Promise<{ id: string }>;
@@ -15,9 +16,17 @@ export default function EditBankPage(props: {
   const router = useRouter();
   const [bank, setBank] = useState<any>(null);
   const [wastes, setWastes] = useState<any[]>([]);
+  const [token, setToken] = useState<string | null>(null);
 
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  // const token =
+  //   typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  useEffect(() => {
+    const cookie = document.cookie
+      .split("; ")
+      .find((c) => c.startsWith("token="));
+    const extractedToken = cookie?.split("=")[1] || null;
+    setToken(extractedToken);
+  }, []);
 
   useEffect(() => {
     if (!id || !token) return;
@@ -63,7 +72,7 @@ export default function EditBankPage(props: {
       accepted_waste_types: wastes,
     };
 
-    const res = await fetch("https://lala.com/api/bs/update", {
+    const res = await fetch("https://imk.schematics-its.com/api/bs/update", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
