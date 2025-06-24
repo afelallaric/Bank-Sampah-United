@@ -48,7 +48,7 @@ export default function HomePage() {
         {/* Main content */}
         <main className="max-w-7xl mx-auto px-4 py-6">
           <h1 className="text-[#9b6f2a] font-semibold text-lg mb-4">
-            Bank Sampah Terdekat
+            Bank Sampah
           </h1>
 
           <div className="grid md:grid-cols-2 gap-6">
