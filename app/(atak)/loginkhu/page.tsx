@@ -33,6 +33,7 @@ export default function LoginPage() {
       if (data.status && data.data?.token) {
         // Save token to cookies
         document.cookie = `token=${data.data.token}; path=/;`;
+        document.cookie = `username=${data.data.username}; path=/;`;
 
         // Redirect to dashboard
         router.push("/my_banks");

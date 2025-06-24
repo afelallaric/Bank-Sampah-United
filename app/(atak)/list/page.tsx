@@ -2,6 +2,7 @@
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import LoggedHeader from "@/components/Header";
 import { useEffect, useState } from "react";
 
 type Bank = {
