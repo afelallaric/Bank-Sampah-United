@@ -47,15 +47,61 @@ export default function HomePage() {
 
         {/* Main content */}
         <main className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-[#9b6f2a] font-semibold text-lg">
-              Bank Sampah Terdekat
-            </h1>
-            <Link href="/bank_sampah_saya">
-              <button className="bg-[#9b6f2a] text-white text-sm font-semibold rounded-md px-4 py-2">
-                Bank Sampah Saya
-              </button>
-            </Link>
+          <h1 className="text-[#9b6f2a] font-semibold text-lg mb-4">
+            Bank Sampah Terdekat
+          </h1>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* Kartu Rizge Kumpeni */}
+            <div className="bg-[#e6e6e6] rounded-md shadow-md p-4 flex flex-col md:flex-row gap-4">
+              <img
+                src="/Images/Trash_Bin.png"
+                alt="Rizge Kumpeni"
+                className="w-full md:w-40 h-40 object-cover rounded"
+              />
+              <div className="flex flex-col justify-between flex-1">
+                <div>
+                  <h2 className="text-[#6d914e] font-semibold text-lg">Rizge Kumpeni</h2>
+                  <p className="text-sm text-gray-600">07.00–22.00</p>
+                  <p className="text-xs text-[#000000]">Jl. Arif Rahman Hakim No. 15 Surabaya</p>
+                  <p className="text-[#4a9449] text-sm font-medium">Buka</p>
+                  <p className="text-xs text-[#4a9449]">Menerima semua jenis sampah</p>
+                  <div className="flex gap-2 mt-2">
+                    <img src="/Images/Botol.png" alt="Botol" className="w-10 h-10 border border-[#f7fbb0] rounded bg-[#f7fbb0]"/>
+                    <img src="/Images/Kertas.png" alt="Kertas" className="w-10 h-10 border border-[#f7fbb0] rounded bg-[#f7fbb0]" />
+                    <img src="/Images/Kaleng.png" alt="Kaleng" className="w-10 h-10 border border-[#f7fbb0] rounded bg-[#f7fbb0]" />
+                  </div>
+                </div>
+                <button className="mt-4 bg-[#7f9748] text-white text-sm font-semibold px-4 py-2 rounded">
+                  Kunjungi
+                </button>
+              </div>
+            </div>
+
+            {/* Kartu TPASA */}
+            <div className="bg-[#e6e6e6] rounded-md shadow-md p-4 flex flex-col md:flex-row gap-4">
+              <img
+                src="/Images/Trash_Bin.png"
+                alt="TPASA"
+                className="w-full md:w-40 h-40 object-cover rounded"
+              />
+              <div className="flex flex-col justify-between flex-1">
+                <div>
+                  <h2 className="text-[#6d914e] font-semibold text-lg">TPASA</h2>
+                  <p className="text-sm text-gray-600">07.00–18.00</p>
+                  <p className="text-xs text-[#000000]">Jl. Arif Rahman Hakim No. 16 Surabaya</p>
+                  <p className="text-[#4a9449] text-sm font-medium">Buka</p>
+                  <p className="text-xs text-red-500">Tidak menerima semua jenis sampah</p>
+                  <div className="flex gap-2 mt-2">
+                    <img src="/Images/Kertas.png" alt="Kertas" className="w-10 h-10 border border-[#f7fbb0] rounded bg-[#f7fbb0]" />
+                    <img src="/Images/Botol.png" alt="Botol" className="w-10 h-10 border border-[#f7fbb0] rounded bg-[#f7fbb0]" />
+                  </div>
+                </div>
+                <button className="mt-4 bg-[#7f9748] text-white text-sm font-semibold px-4 py-2 rounded">
+                  Kunjungi
+                </button>
+              </div>
+            </div>
           </div>
         </main>
 
