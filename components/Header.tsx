@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const user = useUser();
+  const router = useRouter();
   const username = user?.username || "Guest";
   const logout = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -43,12 +45,20 @@ export default function Header() {
             </>
           )}
           {user && (
-            <button
-              onClick={logout}
-              className="border border-white rounded-md px-4 py-1 text-[13px] bg-red-600 hover:bg-red-700 transition-colors"
-            >
-              LOGOUT
-            </button>
+            <>
+              <button
+                onClick={logout}
+                className="border border-white rounded-md px-4 py-1 text-[13px] bg-red-600 hover:bg-red-700 transition-colors"
+              >
+                LOGOUT
+              </button>
+              <button
+                onClick={() => router.push("/mybs")}
+                className="border border-white rounded-md px-4 py-1 text-[13px] bg-[#8c6a33] hover:bg-amber-800 transition-colors"
+              >
+                Bank Sampahku
+              </button>
+            </>
           )}
         </nav>
       </div>

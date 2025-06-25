@@ -36,7 +36,7 @@ export default function LoginPage() {
         document.cookie = `username=${data.data.username}; path=/;`;
 
         // Redirect to dashboard
-        router.push("/my_banks");
+        router.push("/mybs");
       } else {
         setError("Login gagal: " + (data.message || "Email/password salah."));
       }
@@ -73,7 +73,7 @@ export default function LoginPage() {
             {" "}
             {/* Added a wrapper for the button */}
             <Link
-              href="/home_not_logging_in"
+              href="/list"
               className="bg-[#a56f2a] text-white font-semibold text-sm px-5 py-2 rounded flex items-center gap-2 hover:bg-[#8a5a20] transition"
             >
               Lanjutkan Tanpa Melakukan Login

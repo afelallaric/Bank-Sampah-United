@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
                            request.nextUrl.pathname.startsWith('/mybs')
 
   if (!token && isProtectedRoute) {
-    return NextResponse.redirect(new URL('/Login', request.url))
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   return NextResponse.next()
