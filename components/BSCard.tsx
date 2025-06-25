@@ -66,7 +66,7 @@ export default function BSCard({
           </div>
         </div>
         <button
-          onClick={() => router.push(`/bs/${id}/edit`)} // GANTI INI, jangan ada editnya
+          onClick={() => router.push(`/bs/${id}`)} // GANTI INI, jangan ada editnya
           className="mt-4 bg-[#7f9748] text-white text-sm font-semibold px-4 py-2 rounded hover:bg-[#434d2d]"
         >
           Kunjungi
