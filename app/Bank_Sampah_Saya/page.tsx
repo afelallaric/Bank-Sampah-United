@@ -13,12 +13,12 @@ interface BankSampah {
 
 export default function BankSampahPage() {
   const [banks, setBanks] = useState<BankSampah[]>([]);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [showEditPopup, setShowEditPopup] = useState(false);
-  const [profile, setProfile] = useState({
-    nama: 'Kinan Alkasari',
-    password: '*******',
-    email: 'Alkasari32175@gmail.com'
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [newBank, setNewBank] = useState({
+    nama: '',
+    alamat: '',
+    kota: '',
+    noTelp: ''
   });
 
   function isAktif(jam_buka: string, jam_tutup: string): boolean {
@@ -46,12 +46,10 @@ export default function BankSampahPage() {
       .catch(err => console.error('Gagal fetch data:', err));
   }, []);
 
-  const toggleDropdown = () => setShowDropdown(!showDropdown);
-
   return (
     <div className="bg-white" style={{ fontFamily: "'Poppins', sans-serif" }}>
-      {/* This div will be dimmed when popup is shown */}
-      <div className={`transition-opacity duration-200 ${showEditPopup ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
+      {/* Latar belakang konten utama */}
+      <div className={`transition-opacity duration-200 ${showAddPopup ? 'pointer-events-none' : ''}`}>
         {/* Header */}
         <header className="bg-[#5a7c33]">
           <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
@@ -73,34 +71,6 @@ export default function BankSampahPage() {
                 LOKASI <i className="fas fa-chevron-down text-[10px]"></i>
               </button>
               <button className="hover:underline">TENTANG KAMI</button>
-              <div className="relative">
-                <button
-                  aria-label="User profile"
-                  onClick={toggleDropdown}
-                  className="bg-white rounded-full w-8 h-8 flex items-center justify-center text-[#5a7c33]"
-                >
-                  <i className="fas fa-user text-lg"></i>
-                </button>
-                {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-40 bg-[#f9f9b6] border border-[#ccc] rounded shadow z-10">
-                    <button
-                      className="w-full text-left px-4 py-2 hover:bg-[#e0e08c] text-[#5a7c33] font-semibold"
-                      onClick={() => {
-                        setShowEditPopup(true);
-                        setShowDropdown(false);
-                      }}
-                    >
-                      Edit Profile
-                    </button>
-                    <button
-                      className="w-full text-left px-4 py-2 hover:bg-[#e0e08c] text-[#d11a1a] font-semibold"
-                      onClick={() => alert("Logout action")}
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
             </nav>
           </div>
         </header>
@@ -111,7 +81,10 @@ export default function BankSampahPage() {
             <h1 className="text-[#9b6f2a] font-semibold text-lg">
               Home {'>'} Bank Sampah Saya
             </h1>
-            <button className="bg-[#9b6f2a] text-white text-sm font-semibold rounded-md px-4 py-2">
+            <button
+              onClick={() => setShowAddPopup(true)}
+              className="bg-[#9b6f2a] text-white text-sm font-semibold rounded-md px-4 py-2"
+            >
               + Tambah
             </button>
           </div>
@@ -191,66 +164,88 @@ export default function BankSampahPage() {
         </footer>
       </div>
 
-      {/* Edit Profile Popup */}
-      {showEditPopup && (
+      {/* Popup Tambah Bank Sampah */}
+      {showAddPopup && (
         <div className="fixed inset-0 z-50 flex justify-center items-center">
-          <div 
-            className="fixed inset-0 bg-black/30" 
-            onClick={() => setShowEditPopup(false)}
+          <div
+            className="fixed inset-0 bg-black/30"
+            onClick={() => setShowAddPopup(false)}
           ></div>
-          <div className="bg-white rounded-lg p-8 max-w-md w-full shadow-lg relative z-10">
-            <div className="flex justify-center mb-4">
-              <i className="fas fa-user text-4xl text-[#5a7c33]"></i>
-            </div>
-            <label className="block text-[#5a7c33] font-semibold mb-1">Nama</label>
+          <div className="bg-white rounded-lg p-6 w-full max-w-xl shadow-lg z-10">
+
+            <label className="block text-[#809d3c] font-semibold mb-1">Nama Bank Sampah</label>
             <input
               type="text"
-              className="w-full mb-4 px-4 py-2 bg-[#eaeaea] rounded"
-              value={profile.nama}
-              onChange={(e) => setProfile({ ...profile, nama: e.target.value })}
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi Nama Bank Sampah...."
+              value={newBank.nama}
+              onChange={(e) => setNewBank({ ...newBank, nama: e.target.value })}
             />
 
-            <label className="block text-[#5a7c33] font-semibold mb-1">Password</label>
-            <div className="relative mb-4">
-              <input
-                type="password"
-                className="w-full px-4 py-2 bg-[#eaeaea] rounded"
-                value={profile.password}
-                onChange={(e) => setProfile({ ...profile, password: e.target.value })}
-              />
-              <span className="absolute right-3 top-2.5 text-gray-500">
-                <i className="fas fa-eye-slash"></i>
-              </span>
-            </div>
-
-            <label className="block text-[#5a7c33] font-semibold mb-1">Email</label>
+            <label className="block text-[#809d3c] font-semibold mb-1">Alamat Bank Sampah</label>
             <input
-              type="email"
-              className="w-full mb-4 px-4 py-2 bg-[#eaeaea] rounded"
-              value={profile.email}
-              onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+              type="text"
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi Alamat Bank Sampah...."
+              value={newBank.alamat}
+              onChange={(e) => setNewBank({ ...newBank, alamat: e.target.value })}
+            />
+
+            <label className="block text-[#809d3c] font-semibold mb-1">Nama Kota</label>
+            <input
+              type="text"
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi Nama Kota...."
+              value={newBank.kota}
+              onChange={(e) => setNewBank({ ...newBank, kota: e.target.value })}
+            />
+
+            <label className="block text-[#809d3c] font-semibold mb-1">No. Telp</label>
+            <input
+              type="text"
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi No.Telp...."
+              value={newBank.noTelp}
+              onChange={(e) => setNewBank({ ...newBank, noTelp: e.target.value })}
             />
 
             <div className="flex justify-end space-x-4">
               <button
-                onClick={() => setShowEditPopup(false)}
-                className="text-red-600 text-xl"
+               onClick={() => setShowAddPopup(false)}
+               className="text-xl"
               >
-                <i className="fas fa-times-circle"></i>
+                ❌
               </button>
+
               <button
                 onClick={() => {
-                  setShowEditPopup(false);
-                  alert('Data disimpan');
+                  setShowAddPopup(false);
+                  alert('Data berhasil ditambahkan');
+                  // TODO: tambahkan axios.post('/api/...') jika ingin menyimpan data ke backend
                 }}
-                className="text-green-600 text-xl"
+                className="w-10 h-10"
+                aria-label="Simpan"
               >
-                <i className="fas fa-check-circle"></i>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#00cc00"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-10 h-10"
+                >
+                  <polyline points="20 6 10 17 4 12" />
+                </svg>
               </button>
+
             </div>
           </div>
         </div>
       )}
+
+      
     </div>
   );
 }
