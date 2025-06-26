@@ -82,6 +82,7 @@ export default function EditBankPage(props: {
       description: bank.description,
       accept_all: bank.accept_all,
       accepted_waste_types: wastes,
+      status: bank.status,
     };
 
     const res = await fetch("https://imk.schematics-its.com/api/bs/update", {
@@ -119,6 +120,24 @@ export default function EditBankPage(props: {
         <div className="flex flex-col lg:flex-row gap-70">
           {/* Form Section */}
           <div className="flex-1 space-y-4">
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-gray-600">Bank Sampah Aktif?</span>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={bank.status == "active"}
+                  onChange={(e) =>
+                    setBank({
+                      ...bank,
+                      status: e.target.checked ? "active" : "inactive",
+                    })
+                  }
+                />
+                <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-500 peer-focus:ring-green-300 transition-colors duration-300"></div>
+                <div className="absolute left-[2px] top-[2px] bg-white w-5 h-5 rounded-full transition-transform duration-300 peer-checked:translate-x-full"></div>
+              </label>
+            </div>
             <div key="1">
               <label className="block font-semibold text-sm text-[#003049] mb-1">
                 Nama Bank Sampah
