@@ -16,6 +16,13 @@ export default function BankSampahPage() {
   const [banks, setBanks] = useState<BankSampah[]>([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState<string | null>(null);
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [newBank, setNewBank] = useState({
+    nama: "",
+    alamat: "",
+    kota: "",
+    noTelp: "",
+  });
   //   const [showDropdown, setShowDropdown] = useState(false);
   //   const [showEditPopup, setShowEditPopup] = useState(false);
   //   const [profile, setProfile] = useState({
@@ -94,7 +101,10 @@ export default function BankSampahPage() {
               <h1 className="text-[#9b6f2a] font-semibold text-lg">
                 Bank Sampah Saya
               </h1>
-              <button className="bg-[#9b6f2a] text-white text-sm font-semibold rounded-md px-4 py-2">
+              <button
+                onClick={() => setShowAddPopup(true)}
+                className="bg-[#9b6f2af0] text-white text-sm font-semibold rounded-md px-4 py-2 hover:bg-[#9b6f2a]"
+              >
                 + Tambah
               </button>
             </div>
@@ -131,6 +141,167 @@ export default function BankSampahPage() {
             </ul>
           </div>
         </main>
+      )}
+
+      {/* Popup Tambah Bank Sampah */}
+      {showAddPopup && (
+        <div className="fixed inset-0 z-50 flex justify-center items-center">
+          <div
+            className="fixed inset-0 bg-black/30"
+            onClick={() => setShowAddPopup(false)}
+          ></div>
+          <div className="bg-white rounded-lg p-6 w-full max-w-xl shadow-lg z-10">
+            <label className="block text-[#809d3c] font-semibold mb-1">
+              Nama Bank Sampah
+            </label>
+            <input
+              type="text"
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi Nama Bank Sampah...."
+              value={newBank.nama}
+              onChange={(e) => setNewBank({ ...newBank, nama: e.target.value })}
+            />
+
+            <label className="block text-[#809d3c] font-semibold mb-1">
+              Alamat Bank Sampah
+            </label>
+            <input
+              type="text"
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi Alamat Bank Sampah...."
+              value={newBank.alamat}
+              onChange={(e) =>
+                setNewBank({ ...newBank, alamat: e.target.value })
+              }
+            />
+
+            <label className="block text-[#809d3c] font-semibold mb-1">
+              Nama Kota
+            </label>
+            <input
+              type="text"
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi Nama Kota...."
+              value={newBank.kota}
+              onChange={(e) => setNewBank({ ...newBank, kota: e.target.value })}
+            />
+
+            <label className="block text-[#809d3c] font-semibold mb-1">
+              No. Telp
+            </label>
+            <input
+              type="text"
+              className="w-full mb-3 px-2 py-2 bg-[#eaeaea] rounded"
+              placeholder="isi No.Telp...."
+              value={newBank.noTelp}
+              onChange={(e) =>
+                setNewBank({ ...newBank, noTelp: e.target.value })
+              }
+            />
+
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowAddPopup(false)}
+                className="text-xl hover:bg-red-200 rounded"
+              >
+                ❌
+              </button>
+
+              <button
+                onClick={async () => {
+                  setShowAddPopup(false);
+                  try {
+                    const payload = {
+                      name: newBank.nama,
+                      address: newBank.alamat,
+                      city: newBank.kota,
+                      phone: newBank.noTelp,
+                    };
+
+                    // await axios.post(
+                    //   "https://imk.schematics-its.com/api/bs/",
+                    //   payload,
+                    //   {
+                    //     headers: {
+                    //       Authorization: `Bearer ${token}`,
+                    //       "Content-Type": "application/json",
+                    //     },
+                    //   }
+                    // );
+                    fetch("https://imk.schematics-its.com/api/bs", {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`, // if needed
+                      },
+                      body: JSON.stringify({
+                        name: newBank.nama,
+                        address: newBank.alamat,
+                        city: newBank.kota,
+                        phone: newBank.noTelp,
+                      }),
+                      // credentials: "include", // needed if your backend uses cookies/session-based login
+                    })
+                      .then((res) => {
+                        if (!res.ok) throw new Error("Failed to submit");
+                        return res.json();
+                      })
+                      .then((data) => {
+                        alert("Berhasil ditambahkan!");
+                        // Optionally update UI or refetch list
+                      })
+                      .catch((err) => {
+                        console.error("Error:", err);
+                        alert("Gagal menambahkan!");
+                      });
+                    // alert("Bank Sampah berhasil ditambahkan!");
+                    setShowAddPopup(false);
+                    setNewBank({ nama: "", alamat: "", kota: "", noTelp: "" });
+
+                    // Refresh list
+                    fetch(
+                      "https://imk.schematics-its.com/api/bs/my-bank-sampah",
+                      {
+                        headers: { Authorization: `Bearer ${token}` },
+                      }
+                    )
+                      .then((res) => res.json())
+                      .then((data) => {
+                        const processed = data.data.map((bank: BankSampah) => ({
+                          ...bank,
+                        }));
+                        setBanks(data.data);
+                        setLoading(false);
+                      })
+                      .catch((err) => {
+                        console.error("error fetching banks: ", err);
+                        setLoading(false);
+                      });
+                  } catch (err) {
+                    console.error("Gagal tambah bank:", err);
+                    alert("Gagal menambahkan Bank Sampah.");
+                  }
+                  // alert("Data berhasil ditambahkan");
+                }}
+                className="w-10 h-10 hover:bg-green-200 rounded"
+                aria-label="Simpan"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#00cc00"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-10 h-10"
+                >
+                  <polyline points="20 6 10 17 4 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       <Footer />
