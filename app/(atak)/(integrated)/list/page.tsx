@@ -50,13 +50,15 @@ export default function BankListPage() {
   }, []);
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Header />
       <main className="min-h-screen bg-white text-black p-6">
         <h1 className="text-2xl font-bold mb-6">Bank Sampah List</h1>
 
         {loading ? (
-          <p>Loading...</p>
+          <main className="flex-grow">
+            <p>Loading...</p>
+          </main>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             {banks.map((bank: Bank) => (
@@ -79,6 +81,6 @@ export default function BankListPage() {
         )}
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
