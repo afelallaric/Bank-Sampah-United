@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { use } from "react";
 import { cookies } from "next/headers";
 import WasteTypeCardNew from "@/components/WasteTypeCardNew";
+import AlertModal from "@/components/AlertModal";
 
 interface WasteType {
   category_id: string;
@@ -25,7 +26,14 @@ export default function EditBankPage(props: {
   const [bank, setBank] = useState<any>(null);
   const [wastes, setWastes] = useState<WasteType[]>([]);
   const [token, setToken] = useState<string | null>(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
+  function showAlertWithMessage(msg: string) {
+    setAlertMsg(msg);
+    setShowAlert(true);
+  }
   // const token =
   //   typeof window !== "undefined" ? localStorage.getItem("token") : null;
   useEffect(() => {
@@ -95,12 +103,12 @@ export default function EditBankPage(props: {
     });
 
     if (res.ok) {
-      alert("Update success!");
+      showAlertWithMessage("Sukses mengupdate data!");
       console.log(payload);
       router.push("/mybs");
     } else {
       console.log(payload);
-      alert("Failed to update.");
+      showAlertWithMessage("Gagal mengupdate data.");
     }
   };
 
@@ -278,12 +286,50 @@ export default function EditBankPage(props: {
           <div className="flex justify-center">
             <button
               className="bg-[#4c7c22] hover:bg-[#3e671b] text-white font-bold py-2 px-6 rounded w-full md"
-              onClick={handleSubmit}
+              onClick={() => setShowConfirmModal(true)}
             >
               Simpan Perubahan
             </button>
           </div>
         </div>
+        {showConfirmModal && (
+          <div className="fixed inset-0 z-50 flex justify-center items-center">
+            <div
+              className="fixed inset-0 bg-black/40"
+              onClick={() => setShowConfirmModal(false)}
+            ></div>
+            <div className="bg-white rounded-lg p-6 w-full max-w-md z-10 shadow-lg">
+              <h2 className="text-lg font-bold mb-4">Konfirmasi Perubahan</h2>
+              <p>
+                Apakah kamu yakin ingin menyimpan perubahan pada Bank Sampah
+                ini?
+              </p>
+
+              <div className="flex justify-end gap-4 mt-6">
+                <button
+                  onClick={() => setShowConfirmModal(false)}
+                  className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={() => {
+                    setShowConfirmModal(false); // Close modal
+                    handleSubmit(); // Call the submit function
+                  }}
+                  className="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700"
+                >
+                  Ya, Simpan
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        <AlertModal
+          show={showAlert}
+          message={alertMsg}
+          onClose={() => setShowAlert(false)}
+        />
       </main>
       <Footer />
     </div>

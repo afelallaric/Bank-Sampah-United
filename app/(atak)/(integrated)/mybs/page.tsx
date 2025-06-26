@@ -5,6 +5,7 @@ import axios from "axios";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { useRouter } from "next/navigation";
+import AlertModal from "@/components/AlertModal";
 
 interface BankSampah {
   id: number;
@@ -23,6 +24,9 @@ export default function BankSampahPage() {
     kota: "",
     noTelp: "",
   });
+
+  const [alertMsg, setAlertMsg] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
   //   const [showDropdown, setShowDropdown] = useState(false);
   //   const [showEditPopup, setShowEditPopup] = useState(false);
   //   const [profile, setProfile] = useState({
@@ -32,7 +36,10 @@ export default function BankSampahPage() {
   //   });
 
   const router = useRouter();
-
+  function showAlertWithMessage(msg: string) {
+    setAlertMsg(msg);
+    setShowAlert(true);
+  }
   function isAktif(jam_buka: string, jam_tutup: string): boolean {
     const now = new Date();
     const nowMinutes = now.getHours() * 60 + now.getMinutes();
@@ -247,12 +254,11 @@ export default function BankSampahPage() {
                         return res.json();
                       })
                       .then((data) => {
-                        alert("Berhasil ditambahkan!");
-                        // Optionally update UI or refetch list
+                        showAlertWithMessage("Berhasil menambahkan data!");
                       })
                       .catch((err) => {
                         console.error("Error:", err);
-                        alert("Gagal menambahkan!");
+                        showAlertWithMessage("Gagal menambahkan data!");
                       });
                     // alert("Bank Sampah berhasil ditambahkan!");
                     setShowAddPopup(false);
@@ -303,7 +309,11 @@ export default function BankSampahPage() {
           </div>
         </div>
       )}
-
+      <AlertModal
+        show={showAlert}
+        message={alertMsg}
+        onClose={() => setShowAlert(false)}
+      />
       <Footer />
     </div>
   );
